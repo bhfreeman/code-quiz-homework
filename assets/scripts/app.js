@@ -18,9 +18,10 @@ var answerContainer = document.querySelector("#answer-container");
 var questionContainer = document.querySelector("#question-container");
 
 var time = 100;
+var index = 0;
 var questions = [
     {
-        question: "placeholder1",
+        question: "placeholder 1",
         answers: ["placeholder 1 a", "placeholder 1 b", "placeholder 1 c", "placeholder 1 d"],
         correct: "placeholder1 d"
     },
@@ -58,15 +59,29 @@ startBtn.addEventListener("click", function(e) {
     // hide the starting container
     startContainer.style.display = "none";
     // I am presented with a question
-    questionContainer.textContent = questions[0].question;
-    var questionBtn = document.createElement("button");
-    questionBtn.textContent = questions[0].answers[0];
-    answerContainer.append(questionBtn);
-
+    // questionContainer.textContent = questions[0].question;
+    // var answerBtn = document.createElement("button");
+    // answerBtn.textContent = questions[0].answers[0];
+    // answerContainer.append(answerBtn);
+        questionDisplay();
 });
 
+function questionDisplay () {
+    if(index > questions.length){
+        alert("end of quiz");
+    }
+    questionContainer.textContent = questions[index].question;
+    questions[index].answers.forEach(function (arrItem){
+        var answerBtn = document.createElement("button");
+        answerBtn.textContent = arrItem;
+        answerContainer.append(answerBtn);
+    });
+    
+}
 
-
+function checkAnswer(){
+    
+}
 
 
 // WHEN I answer a question
@@ -77,3 +92,4 @@ startBtn.addEventListener("click", function(e) {
 // THEN the game is over
 // WHEN the game is over
 // THEN I can save my initials and my score
+
