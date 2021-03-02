@@ -11,23 +11,62 @@
 // SO THAT I can gauge my progress compared to my peers
 // Acceptance Criteria
 // GIVEN I am taking a code quiz
-var timer = document.querySelector("#timer");
-var startBtn = document.querySelector("#startBtn");
-var startContainer = document.querySelector("#start-container");
+var timer = document.getElementById("timer");
+var startBtn = document.getElementById("startBtn");
+var startContainer = document.getElementById("start-container");
+var answerContainer = document.querySelector("#answer-container");
+var questionContainer = document.querySelector("#question-container");
 
 var time = 100;
+var questions = [
+    {
+        question: "placeholder1",
+        answers: ["placeholder 1 a", "placeholder 1 b", "placeholder 1 c", "placeholder 1 d"],
+        correct: "placeholder1 d"
+    },
+    {
+        question: "placeholder 2",
+        answers: ["placeholder 2 a", "placeholder 2 b", "placeholder 2 c", "placeholder 2 d"],
+        correct: "placeholder 2 a"
+    },
+    {
+        question: "placeholder 3",
+        answers: ["placeholder 3 a", "placeholder 3 b", "placeholder 3 c", "placeholder 3 d"],
+        correct: "placeholder 3 d"
+    },
+    {
+        question: "placeholder 4",
+        answers: ["placeholder 4 a", "placeholder 4 b", "placeholder 4 c", "placeholder 4 d"],
+        correct: "placeholder 4 d"
+    },
+    {
+        question: "placeholder 5",
+        answers: ["placeholder 5 a", "placeholder 5 b", "placeholder 5 c", "placeholder 5 d"],
+        correct: "placeholder 5 d"
+    }
+]
 
 // WHEN I click the start button
-startBtn.addEventListener("click", function() {
-    // THEN a timer starts and I am presented with a question
+startBtn.addEventListener("click", function(e) {
+    // THEN a timer starts 
+    console.log(e);
     timer.textContent= time;
     setInterval(function() {
         time--;
-        timer.textContent= time;
-    }, 1000)
+        timer.textContent = time;
+    }, 1000);
     // hide the starting container
-    startContainer
+    startContainer.style.display = "none";
+    // I am presented with a question
+    questionContainer.textContent = questions[0].question;
+    var questionBtn = document.createElement("button");
+    questionBtn.textContent = questions[0].answers[0];
+    answerContainer.append(questionBtn);
+
 });
+
+
+
 
 
 // WHEN I answer a question
