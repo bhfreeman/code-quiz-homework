@@ -17,79 +17,118 @@ var startContainer = document.getElementById("start-container");
 var answerContainer = document.querySelector("#answer-container");
 var questionContainer = document.querySelector("#question-container");
 
-var time = 100;
+var time = 30;
 var index = 0;
+var score = 0;
+var notAnswered = true;
 var questions = [
-    {
-        question: "placeholder 1",
-        answers: ["placeholder 1 a", "placeholder 1 b", "placeholder 1 c", "placeholder 1 d"],
-        correct: "placeholder1 d"
-    },
-    {
-        question: "placeholder 2",
-        answers: ["placeholder 2 a", "placeholder 2 b", "placeholder 2 c", "placeholder 2 d"],
-        correct: "placeholder 2 a"
-    },
-    {
-        question: "placeholder 3",
-        answers: ["placeholder 3 a", "placeholder 3 b", "placeholder 3 c", "placeholder 3 d"],
-        correct: "placeholder 3 d"
-    },
-    {
-        question: "placeholder 4",
-        answers: ["placeholder 4 a", "placeholder 4 b", "placeholder 4 c", "placeholder 4 d"],
-        correct: "placeholder 4 d"
-    },
-    {
-        question: "placeholder 5",
-        answers: ["placeholder 5 a", "placeholder 5 b", "placeholder 5 c", "placeholder 5 d"],
-        correct: "placeholder 5 d"
-    }
-]
+  {
+    question: "placeholder 1",
+    answers: [
+      "placeholder 1 a",
+      "placeholder 1 b",
+      "placeholder 1 c",
+      "placeholder 1 d",
+    ],
+    correct: "placeholder 1 d",
+  },
+  {
+    question: "placeholder 2",
+    answers: [
+      "placeholder 2 a",
+      "placeholder 2 b",
+      "placeholder 2 c",
+      "placeholder 2 d",
+    ],
+    correct: "placeholder 2 a",
+  },
+  {
+    question: "placeholder 3",
+    answers: [
+      "placeholder 3 a",
+      "placeholder 3 b",
+      "placeholder 3 c",
+      "placeholder 3 d",
+    ],
+    correct: "placeholder 3 d",
+  },
+  {
+    question: "placeholder 4",
+    answers: [
+      "placeholder 4 a",
+      "placeholder 4 b",
+      "placeholder 4 c",
+      "placeholder 4 d",
+    ],
+    correct: "placeholder 4 d",
+  },
+  {
+    question: "placeholder 5",
+    answers: [
+      "placeholder 5 a",
+      "placeholder 5 b",
+      "placeholder 5 c",
+      "placeholder 5 d",
+    ],
+    correct: "placeholder 5 d",
+  },
+];
 
 // WHEN I click the start button
-startBtn.addEventListener("click", function(e) {
-    // THEN a timer starts 
-    console.log(e);
-    timer.textContent= time;
-    setInterval(function() {
-        time--;
-        timer.textContent = time;
-    }, 1000);
-    // hide the starting container
-    startContainer.style.display = "none";
-    // I am presented with a question
-    // questionContainer.textContent = questions[0].question;
-    // var answerBtn = document.createElement("button");
-    // answerBtn.textContent = questions[0].answers[0];
-    // answerContainer.append(answerBtn);
-        questionDisplay();
+startBtn.addEventListener("click", function (e) {
+  // THEN a timer starts
+  timer.textContent = time;
+  setInterval(function () {
+    time--;
+    timer.textContent = time;
+  }, 1000);
+  // hide the starting container
+  startContainer.style.display = "none";
+  // I am presented with a question
+  // questionContainer.textContent = questions[0].question;
+  // var answerBtn = document.createElement("button");
+  // answerBtn.textContent = questions[0].answers[0];
+  // answerContainer.append(answerBtn);
+  questionDisplay(index);
 });
 
-function questionDisplay () {
-    if(index > questions.length){
-        alert("end of quiz");
+answerContainer.addEventListener("click", function (event) {
+  var element = event.target;
+  if (element.matches("button")) {
+    if (element.textContent === questions[index].correct) {
+      score++;
+      console.log("score: " + score);
+    } else {
+        // WHEN I answer a question incorrectly
+        // THEN time is subtracted from the clock
+      time = time - 10;
     }
-    questionContainer.textContent = questions[index].question;
-    questions[index].answers.forEach(function (arrItem){
-        var answerBtn = document.createElement("button");
-        answerBtn.textContent = arrItem;
-        answerContainer.append(answerBtn);
-    });
-    
-}
+    resetAnswer();
+  }
+});
 
-function checkAnswer(){
-    
+// function to go to array and get question object then displays the questions and answers related to that object
+function questionDisplay(i) {
+  questions[i].answers.forEach(function (arrItem) {
+    questionContainer.textContent = questions[i].question;
+    var answerBtn = document.createElement("button");
+    answerBtn.textContent = arrItem;
+    answerContainer.append(answerBtn);
+  });
 }
-
 
 // WHEN I answer a question
 // THEN I am presented with another question
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
+
+// Function to reset the former question and display the next quesiton
+function resetAnswer() {
+  index++;
+  questionContainer.textContent = "";
+  answerContainer.textContent = "";
+  questionDisplay(index);
+}
+
 // WHEN all questions are answered or the timer reaches 0
 // THEN the game is over
 // WHEN the game is over
 // THEN I can save my initials and my score
-
