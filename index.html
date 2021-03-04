@@ -6,19 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Quiz</title>
     <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
-<body>
-    <section class= "main-container" id="start-container">
-        <h1>Take a Quiz</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore cupiditate eveniet ipsa, natus magnam earum mollitia velit iure, nesciunt dolorum libero molestiae eos quo provident facere rerum error accusamus delectus?</p>
+<body class="container">
+    <section class= "main-container row row-cols-1" id="start-container">
+        <h1 class="col-12">Take a Quiz</h1>
+        <p>Take a quiz to better your understanding of JavaScript</p>
+        <br>
+        <p>Try to get as many right as you can</p>
+        <br>
+        <p>The quiz ends when you have answered all the questions or the time runs out</p>
+        <br>
+        <p>Each question answered right increases your score by 1</p>
+        <br>
+        <p>Each question answered wrong decreases the timer by 10 seconds</p>
         <button id="startBtn">Start Quiz</button>
     </section>
-    <div class= "main-container" id="quiz-container">
+    <div class= "main-container row justify-content-center" id="quiz-container">
         <p id="timer"></p>
-        <h1 id="question-container"></h1>
+        <h1 class="col-12" id="question-container"></h1>
         <div id="answer-container"></div>
     </div>
-    <div class="main-container" id="end-container">
+    <div class="main-container row justify-content-center" id="end-container">
         <h1>End of the Quiz</h1>
         <form>
             <input type="text" id="submit-text" placeholder="name">

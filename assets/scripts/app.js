@@ -1,9 +1,5 @@
 // Still to do
-
 // make function to add name and score and save to localStorage
-
-
-
 // User Story
 // AS A coding boot camp student
 // I WANT to take a timed quiz on JavaScript fundamentals that stores high scores
@@ -15,17 +11,23 @@ var startBtn = document.getElementById("startBtn");
 var startContainer = document.getElementById("start-container");
 var answerContainer = document.querySelector("#answer-container");
 var questionContainer = document.querySelector("#question-container");
+var submitText = document.querySelector("#submit-text");
 var quizContainer = document.querySelector("#quiz-container");
 var endContainer = document.querySelector("#end-container");
 var highScore = document.querySelector("#high-score");
 var submitBtn = document.querySelector("#submit-button");
-var scoreBox = document.querySelector("#score-box")
-
+var scoreBox = document.querySelector("#score-box");
 var time = 30;
 var index = 0;
 var score = 0;
-var endScores = [];
 var storage = window.localStorage;
+var endScores = JSON.parse(storage.getItem("scores"));
+if (endScores) {
+  endScores = JSON.parse(storage.getItem("scores"));
+} else {
+  endScores = [];
+}
+renderScores();
 var questions = [
   {
     question: "placeholder 1",
@@ -78,8 +80,6 @@ var questions = [
     correct: "placeholder 5 d",
   },
 ];
-
-
 // WHEN I click the start button
 startBtn.addEventListener("click", function (e) {
   // THEN a timer starts
@@ -93,7 +93,6 @@ startBtn.addEventListener("click", function (e) {
   startContainer.style.display = "none";
   questionDisplay(index);
 });
-
 answerContainer.addEventListener("click", function (event) {
   var element = event.target;
   if (element.matches("button")) {
@@ -110,7 +109,6 @@ answerContainer.addEventListener("click", function (event) {
     resetAnswer();
   }
 });
-
 // function to go to array and get question object then displays the questions and answers related to that object
 function questionDisplay(i) {
   questions[i].answers.forEach(function (arrItem) {
@@ -120,7 +118,6 @@ function questionDisplay(i) {
     answerContainer.append(answerBtn);
   });
 }
-
 // Function to reset the former question and display the next quesiton
 function resetAnswer() {
   questionContainer.textContent = "";
@@ -135,16 +132,14 @@ function resetAnswer() {
     questionDisplay(index);
   }
 }
-
 function gameOver() {
   questionContainer.style.display = "none";
   answerContainer.style.display = "none";
   endContainer.style.display = "block";
 }
-
 function displayTime() {
   timer.textContent = time;
-  var timerCount= setInterval(function () {
+  var timerCount = setInterval(function () {
     time--;
     timer.textContent = time;
     // WHEN the timer reaches 0
@@ -156,43 +151,32 @@ function displayTime() {
     }
   }, 1000);
 }
-
 // THEN I can save my initials and my score
-function submitInit(e){
+function submitInit(e) {
   e.preventDefault();
-  console.log(e);
-  // selecting the input
-  var submitText = document.querySelector("#submit-text");
   //setting the response var to be the users text
   var response = submitText.value;
   // retrieving the saved value so we can add to it
-  if (JSON.parse(storage.getItem('scores'))) {
-    endScores = JSON.parse(storage.getItem('scores'));
-  } else {
-    //setting the local storage value to be our intial value of an array of scores
-    storage.setItem('scores', JSON.stringify(endScores));
-  }
   // adding new values to the array
-  endScores.push({initials: response,
-  storedScore: score});
+  endScores.push({ initials: response, storedScore: score });
   //setting the local storage to be the new array
-  storage.setItem('scores', JSON.stringify(endScores));
-  console.log(endScores);
-  // iterating through array to add to page
-  endScores.forEach(function(){
-    var scoreListItem = document.createElement('li');
-    scoreListItem.textContent = "Initials " + this.initials + "\n" + "Score " + this.storedScore;
-    scoreBox.append(scoreListItem);
-  })
+  storage.setItem("scores", JSON.stringify(endScores));
+  var form = document.querySelector("form");
+  form.style.display = "none";
+  renderScores();
 }
-
-
+function renderScores() {
+  scoreBox.innerHTML = "";
+  // iterating through array to add to page
+  endScores.forEach(function (item) {
+    var scoreListItem = document.createElement("li");
+    scoreListItem.textContent =
+      "Initials " + item.initials + "\n" + "Score " + item.storedScore;
+    scoreBox.append(scoreListItem);
+  });
+}
 submitBtn.addEventListener("click", submitInit);
-
-
 // Your Task
 // At some point in your journey to become a full-stack web developer, you’ll likely be asked to complete a coding assessment—perhaps as part of an interview process. A typical coding assessment includes both multiple-choice questions and interactive coding challenges.
-
 // To help familiarize you with these tests and allow you to use the skills covered in this unit, this week’s homework invites you to build a timed coding quiz with multiple-choice questions. This app will run in the browser and will feature dynamically updated HTML and CSS powered by JavaScript code that you write. It will have a clean, polished, and responsive user interface.
-
 // This week’s coursework will equip you with all the skills you need to succeed in this assignment.
