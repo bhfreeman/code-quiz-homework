@@ -1,3 +1,8 @@
+// Still to do
+
+//make functionality so when the quiz ends the user is shown the end screen
+// make function to add name and score and save to localStorage
+
 // Your Task
 // At some point in your journey to become a full-stack web developer, you’ll likely be asked to complete a coding assessment—perhaps as part of an interview process. A typical coding assessment includes both multiple-choice questions and interactive coding challenges.
 
@@ -16,11 +21,11 @@ var startBtn = document.getElementById("startBtn");
 var startContainer = document.getElementById("start-container");
 var answerContainer = document.querySelector("#answer-container");
 var questionContainer = document.querySelector("#question-container");
+var quizContainer = document.querySelector("#quiz-container");
 
 var time = 30;
 var index = 0;
 var score = 0;
-var notAnswered = true;
 var questions = [
   {
     question: "placeholder 1",
@@ -77,18 +82,14 @@ var questions = [
 // WHEN I click the start button
 startBtn.addEventListener("click", function (e) {
   // THEN a timer starts
-  timer.textContent = time;
-  setInterval(function () {
-    time--;
-    timer.textContent = time;
-  }, 1000);
+  displayTime();
+  // timer.textContent = time;
+  // setInterval(function () {
+  //   time--;
+  //   timer.textContent = time;
+  // }, 1000);
   // hide the starting container
   startContainer.style.display = "none";
-  // I am presented with a question
-  // questionContainer.textContent = questions[0].question;
-  // var answerBtn = document.createElement("button");
-  // answerBtn.textContent = questions[0].answers[0];
-  // answerContainer.append(answerBtn);
   questionDisplay(index);
 });
 
@@ -99,10 +100,12 @@ answerContainer.addEventListener("click", function (event) {
       score++;
       console.log("score: " + score);
     } else {
-        // WHEN I answer a question incorrectly
-        // THEN time is subtracted from the clock
+      // WHEN I answer a question incorrectly
+      // THEN time is subtracted from the clock
       time = time - 10;
     }
+    // WHEN I answer a question
+    // THEN I am presented with another question]
     resetAnswer();
   }
 });
@@ -117,17 +120,39 @@ function questionDisplay(i) {
   });
 }
 
-// WHEN I answer a question
-// THEN I am presented with another question
-
 // Function to reset the former question and display the next quesiton
 function resetAnswer() {
-  index++;
   questionContainer.textContent = "";
   answerContainer.textContent = "";
-  questionDisplay(index);
+  index++;
+  if (index >= questions.length) {
+    console.log("game over");
+    gameOver();
+  } else {
+    questionDisplay(index);
+  }
 }
 
+function gameOver() {
+  questionContainer.style.display = "none";
+  answerContainer.style.display = "none";
+  var scoreScreen = document.createElement("p");
+  scoreScreen.textContent = "Your score" + score;
+  quizContainer.append(scoreScreen);
+}
+
+function displayTime() {
+  timer.textContent = time;
+  var timerCount= setInterval(function () {
+    time--;
+    timer.textContent = time;
+    if (time <= 0) {
+      gameOver();
+      clearInterval(timerCount);
+      timer.textContent = "Out of time";
+    }
+  }, 1000);
+}
 // WHEN all questions are answered or the timer reaches 0
 // THEN the game is over
 // WHEN the game is over
