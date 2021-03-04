@@ -1,14 +1,8 @@
 // Still to do
 
-//make functionality so when the quiz ends the user is shown the end screen
 // make function to add name and score and save to localStorage
 
-// Your Task
-// At some point in your journey to become a full-stack web developer, you’ll likely be asked to complete a coding assessment—perhaps as part of an interview process. A typical coding assessment includes both multiple-choice questions and interactive coding challenges.
 
-// To help familiarize you with these tests and allow you to use the skills covered in this unit, this week’s homework invites you to build a timed coding quiz with multiple-choice questions. This app will run in the browser and will feature dynamically updated HTML and CSS powered by JavaScript code that you write. It will have a clean, polished, and responsive user interface.
-
-// This week’s coursework will equip you with all the skills you need to succeed in this assignment.
 
 // User Story
 // AS A coding boot camp student
@@ -22,10 +16,16 @@ var startContainer = document.getElementById("start-container");
 var answerContainer = document.querySelector("#answer-container");
 var questionContainer = document.querySelector("#question-container");
 var quizContainer = document.querySelector("#quiz-container");
+var endContainer = document.querySelector("#end-container");
+var highScore = document.querySelector("#high-score");
+var submitBtn = document.querySelector("#submit-button");
+var scoreBox = document.querySelector("#score-box")
 
 var time = 30;
 var index = 0;
 var score = 0;
+var endScores = [];
+var storage = window.localStorage;
 var questions = [
   {
     question: "placeholder 1",
@@ -79,6 +79,7 @@ var questions = [
   },
 ];
 
+
 // WHEN I click the start button
 startBtn.addEventListener("click", function (e) {
   // THEN a timer starts
@@ -125,6 +126,8 @@ function resetAnswer() {
   questionContainer.textContent = "";
   answerContainer.textContent = "";
   index++;
+  // WHEN all questions are answered
+  // THEN the game is over
   if (index >= questions.length) {
     console.log("game over");
     gameOver();
@@ -136,9 +139,7 @@ function resetAnswer() {
 function gameOver() {
   questionContainer.style.display = "none";
   answerContainer.style.display = "none";
-  var scoreScreen = document.createElement("p");
-  scoreScreen.textContent = "Your score" + score;
-  quizContainer.append(scoreScreen);
+  endContainer.style.display = "block";
 }
 
 function displayTime() {
@@ -146,6 +147,8 @@ function displayTime() {
   var timerCount= setInterval(function () {
     time--;
     timer.textContent = time;
+    // WHEN the timer reaches 0
+    // THEN the game is over
     if (time <= 0) {
       gameOver();
       clearInterval(timerCount);
@@ -153,7 +156,43 @@ function displayTime() {
     }
   }, 1000);
 }
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-// WHEN the game is over
+
 // THEN I can save my initials and my score
+function submitInit(e){
+  e.preventDefault();
+  console.log(e);
+  // selecting the input
+  var submitText = document.querySelector("#submit-text");
+  //setting the response var to be the users text
+  var response = submitText.value;
+  // retrieving the saved value so we can add to it
+  if (JSON.parse(storage.getItem('scores'))) {
+    endScores = JSON.parse(storage.getItem('scores'));
+  } else {
+    //setting the local storage value to be our intial value of an array of scores
+    storage.setItem('scores', JSON.stringify(endScores));
+  }
+  // adding new values to the array
+  endScores.push({initials: response,
+  storedScore: score});
+  //setting the local storage to be the new array
+  storage.setItem('scores', JSON.stringify(endScores));
+  console.log(endScores);
+  // iterating through array to add to page
+  endScores.forEach(function(){
+    var scoreListItem = document.createElement('li');
+    scoreListItem.textContent = "Initials " + this.initials + "\n" + "Score " + this.storedScore;
+    scoreBox.append(scoreListItem);
+  })
+}
+
+
+submitBtn.addEventListener("click", submitInit);
+
+
+// Your Task
+// At some point in your journey to become a full-stack web developer, you’ll likely be asked to complete a coding assessment—perhaps as part of an interview process. A typical coding assessment includes both multiple-choice questions and interactive coding challenges.
+
+// To help familiarize you with these tests and allow you to use the skills covered in this unit, this week’s homework invites you to build a timed coding quiz with multiple-choice questions. This app will run in the browser and will feature dynamically updated HTML and CSS powered by JavaScript code that you write. It will have a clean, polished, and responsive user interface.
+
+// This week’s coursework will equip you with all the skills you need to succeed in this assignment.
