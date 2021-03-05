@@ -1,7 +1,11 @@
-#timer {
+/* #timer {
     position: fixed;
     top: 0;
     right: 10px;
+} */
+
+.main-container {
+    text-align: center;
 }
 
 #end-container {

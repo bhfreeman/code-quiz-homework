@@ -20,12 +20,13 @@
         <p>Each question answered right increases your score by 1</p>
         <br>
         <p>Each question answered wrong decreases the timer by 10 seconds</p>
-        <button id="startBtn">Start Quiz</button>
+        <button class="btn btn-outline-primary" id="startBtn">Start Quiz</button>
     </section>
     <div class= "main-container row justify-content-center" id="quiz-container">
-        <p id="timer"></p>
         <h1 class="col-12" id="question-container"></h1>
         <div id="answer-container"></div>
+        <p class="col-12" id="timer"></p>
+        <div id= "score-card"></div>
     </div>
     <div class="main-container row justify-content-center" id="end-container">
         <h1>End of the Quiz</h1>
@@ -34,7 +35,7 @@
             <button id="submit-button">Submit</button>
         </form>
         <h1 id="high-score">Previous Scores:</h1>
-        <ul id="score-box"></ul>
+        <ul class="list-group list-group-flush" id="score-box"></ul>
     </div>
     <script src="./assets/scripts/app.js"></script>
 </body>

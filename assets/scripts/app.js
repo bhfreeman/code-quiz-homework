@@ -17,7 +17,8 @@ var endContainer = document.querySelector("#end-container");
 var highScore = document.querySelector("#high-score");
 var submitBtn = document.querySelector("#submit-button");
 var scoreBox = document.querySelector("#score-box");
-var time = 30;
+var scoreCard = document.querySelector("#score-card");
+var time = 100;
 var index = 0;
 var score = 0;
 var storage = window.localStorage;
@@ -28,56 +29,65 @@ if (endScores) {
   endScores = [];
 }
 renderScores();
+// questions taken from https://data-flair.training/blogs/javascript-quiz/
 var questions = [
   {
-    question: "placeholder 1",
+    question: "JavaScript is a ___ -side programming language.",
     answers: [
-      "placeholder 1 a",
-      "placeholder 1 b",
-      "placeholder 1 c",
-      "placeholder 1 d",
+      "Client",
+      "Server",
+      "Both",
+      "None",
     ],
-    correct: "placeholder 1 d",
+    correct: "Both",
   },
   {
-    question: "placeholder 2",
+    question: "Which of the following will write the message “Hello DataFlair!” in an alert box?",
     answers: [
-      "placeholder 2 a",
-      "placeholder 2 b",
-      "placeholder 2 c",
-      "placeholder 2 d",
+      "alertBox(“Hello DataFlair!”);",
+      "alert(Hello DataFlair!);",
+      "msgAlert(“Hello DataFlair!”);",
+      "alert(“Hello DataFlair!”);",
     ],
-    correct: "placeholder 2 a",
+    correct: "alert(“Hello DataFlair!”);",
   },
   {
-    question: "placeholder 3",
+    question: "How do you find the minimum of x and y using JavaScript?",
     answers: [
-      "placeholder 3 a",
-      "placeholder 3 b",
-      "placeholder 3 c",
-      "placeholder 3 d",
+      "min(x,y);",
+      "Math.min(x,y)",
+      "Math.min(xy)",
+      "min(xy);",
     ],
-    correct: "placeholder 3 d",
+    correct: "Math.min(x,y)",
   },
   {
-    question: "placeholder 4",
+    question: "Which JavaScript label catches all the values, except for the ones specified?",
     answers: [
-      "placeholder 4 a",
-      "placeholder 4 b",
-      "placeholder 4 c",
-      "placeholder 4 d",
+      "catch",
+      "label",
+      "try",
+      "default",
     ],
-    correct: "placeholder 4 d",
+    correct: "default",
   },
   {
-    question: "placeholder 5",
+    question: "Which are the correct \"if\" statements to execute certain code if “x” is equal to 2?",
     answers: [
-      "placeholder 5 a",
-      "placeholder 5 b",
-      "placeholder 5 c",
-      "placeholder 5 d",
+      "if(x 2)",
+      "if(x = 2)",
+      "if(x == 2)",
+      "if(x != 2 )",
     ],
-    correct: "placeholder 5 d",
+    correct: "if(x == 2)",
+  },
+  {
+    question: "If you type the following code in the console window, what result will you get? \"3 > 2 > 1 === false\"",
+    answers: [
+      "true",
+      "false",
+    ],
+    correct: "true",
   },
 ];
 // WHEN I click the start button
@@ -115,11 +125,13 @@ function questionDisplay(i) {
     questionContainer.textContent = questions[i].question;
     var answerBtn = document.createElement("button");
     answerBtn.textContent = arrItem;
+    answerBtn.classList = "btn btn-outline-primary col-12 my-1"
     answerContainer.append(answerBtn);
   });
 }
 // Function to reset the former question and display the next quesiton
 function resetAnswer() {
+  scoreCard.textContent = "Score: " + score;
   questionContainer.textContent = "";
   answerContainer.textContent = "";
   index++;
@@ -138,10 +150,10 @@ function gameOver() {
   endContainer.style.display = "block";
 }
 function displayTime() {
-  timer.textContent = time;
+  timer.textContent = "Time Left: " + time;
   var timerCount = setInterval(function () {
     time--;
-    timer.textContent = time;
+    timer.textContent = "Time Left: " + time;
     // WHEN the timer reaches 0
     // THEN the game is over
     if (time <= 0) {
@@ -170,8 +182,9 @@ function renderScores() {
   // iterating through array to add to page
   endScores.forEach(function (item) {
     var scoreListItem = document.createElement("li");
+    scoreListItem.classList = "list-group-item"
     scoreListItem.textContent =
-      "Initials " + item.initials + "\n" + "Score " + item.storedScore;
+      "Name: " + item.initials + "\n" + "Score: " + item.storedScore;
     scoreBox.append(scoreListItem);
   });
 }
