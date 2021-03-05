@@ -76,10 +76,10 @@ var questions = [
     answers: [
       "if(x 2)",
       "if(x = 2)",
-      "if(x == 2)",
+      "if(x === 2)",
       "if(x != 2 )",
     ],
-    correct: "if(x == 2)",
+    correct: "if(x === 2)",
   },
   {
     question: "If you type the following code in the console window, what result will you get? \"3 > 2 > 1 === false\"",
@@ -146,6 +146,7 @@ function resetAnswer() {
 }
 function gameOver() {
   questionContainer.style.display = "none";
+  quizContainer.style.display = "none";
   answerContainer.style.display = "none";
   endContainer.style.display = "block";
 }
